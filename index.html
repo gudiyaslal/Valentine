@@ -50,11 +50,13 @@
       box-shadow: 0 18px 60px rgba(0,0,0,.15);
     }
 
+    /* Top image */
     .art {
       width: min(260px, 80vw);
       margin: 0 auto 10px;
       display: block;
       filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
+      border-radius: 18px;
     }
 
     h1 {
@@ -65,12 +67,11 @@
     .button-zone {
       position: relative;
       width: min(520px, 92%);
-      height: 150px;
+      height: 170px;
       margin: 0 auto;
       touch-action: none;
     }
 
-    /* BUTTON BASE */
     button {
       position: absolute;
       padding: 16px 24px;
@@ -82,10 +83,10 @@
       box-shadow: 0 10px 24px rgba(0,0,0,.14);
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      transition: transform .12s ease, background .12s ease;
+      transition: transform .12s ease, background .12s ease, left .08s ease, top .08s ease;
+      will-change: left, top, transform;
     }
 
-    /* YES BUTTON */
     #yesBtn {
       top: 50%;
       left: 18%;
@@ -95,7 +96,6 @@
     }
     #yesBtn:hover { background: var(--yesHover); }
 
-    /* NO BUTTON */
     #noBtn {
       top: 50%;
       left: 62%;
@@ -125,6 +125,18 @@
       width: min(380px, 90vw);
       margin: 0 auto;
       display: block;
+      border-radius: 18px;
+    }
+
+    .cta {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: #25D366;
+      color: #fff;
+      font-weight: 800;
+      text-decoration: none;
+      margin-top: 10px;
     }
 
     @keyframes pop {
@@ -139,49 +151,14 @@
 
   <main class="card">
 
-    <!-- CUTE ANIMAL SVG -->
+    <!-- TOP CUTE IMAGE/GIF -->
     <img
-  class="art"
-  src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExanFwM255YXpweXVjY2txYjZ6bW1rMDdwdGc4YTRkdXBrdHZ2anQ1NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WOORRezUTVbs9iST3f/giphy.gif"
-      alt="Cute valentine illustration"
-/>
-      <defs>
-        <linearGradient id="fur" x1="0" x2="1">
-          <stop offset="0" stop-color="#f7c7a1"/>
-          <stop offset="1" stop-color="#f2a97b"/>
-        </linearGradient>
-        <linearGradient id="heart" x1="0" x2="1">
-          <stop offset="0" stop-color="#ff4d7d"/>
-          <stop offset="1" stop-color="#ff1f68"/>
-        </linearGradient>
-      </defs>
+      class="art"
+      src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExanFwM255YXpweXVjY2txYjZ6bW1rMDdwdGc4YTRkdXBrdHZ2anQ1NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WOORRezUTVbs9iST3f/giphy.gif"
+      alt="Cute valentine"
+    />
 
-      <path d="M250 50 C250 33 270 25 282 38
-               C294 25 314 33 314 50
-               C314 78 282 92 282 106
-               C282 92 250 78 250 50Z"
-            fill="url(#heart)"/>
-
-      <path d="M90 120 C90 70 140 40 190 60
-               C240 40 290 70 290 120
-               C290 180 240 210 190 210
-               C140 210 90 180 90 120Z"
-            fill="url(#fur)"/>
-
-      <path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
-      <path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
-
-      <circle cx="160" cy="130" r="8"/>
-      <circle cx="220" cy="130" r="8"/>
-
-      <path d="M190 144 C186 144 182 148 182 152
-               C182 160 190 164 190 170
-               C190 164 198 160 198 152
-               C198 148 194 144 190 144Z"
-            fill="#ff7aa2"/>
-    </svg>
-
-    <h1>Rg, will you be my Valentine? 💖</h1>
+    <h1>Rg, will you be my Valentine?</h1>
 
     <section class="button-zone" id="zone">
       <button id="yesBtn">Yes</button>
@@ -192,21 +169,19 @@
 
     <section class="result" id="result">
       <h2>YAY! 🎉</h2>
+
       <img
         class="fireworks"
         src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDh0cmx4eTZjMXJwbzYwN2drYm8zcjVjc2prdGExYzF3dTNjNW92eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/S9hfXcbbbiVCpAOQre/giphy.gif"
-        alt="Fireworks"
+        alt="Celebration"
       />
 
-      <p style="margin:14px 0 10px; font-size:16px; opacity:.85;">
-        Ok! I will go out at 4 pm. Bye!”
+      <p style="margin:14px 0 6px; font-size:16px; opacity:.85;">
+        Muthumani moonjila ethira santhosham! 💕
       </p>
 
-      <a
-        href="https://wa.me/?text=YES%20%F0%9F%92%96"
-        target="_blank"
-        style="display:inline-block; padding:12px 18px; border-radius:999px; background:#25D366; color:#fff; font-weight:800; text-decoration:none;"
-      >
+      <a class="cta" href="https://wa.me/?text=YES%20%F0%9F%92%96" target="_blank">
+      
       </a>
     </section>
 
@@ -218,10 +193,9 @@
     const noBtn = document.getElementById("noBtn");
     const result = document.getElementById("result");
     const hint = document.getElementById("hint");
-
-    /* CONFETTI */
     const confettiCanvas = document.getElementById("confettiCanvas");
 
+    /* CONFETTI */
     function resizeConfettiCanvas() {
       const dpr = Math.max(1, window.devicePixelRatio || 1);
       confettiCanvas.width = Math.floor(window.innerWidth * dpr);
@@ -229,17 +203,11 @@
       confettiCanvas.style.width = "100vw";
       confettiCanvas.style.height = "100vh";
     }
-
     resizeConfettiCanvas();
     window.addEventListener("resize", resizeConfettiCanvas);
-    window.addEventListener("orientationchange", () =>
-      setTimeout(resizeConfettiCanvas, 150)
-    );
+    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
 
-    const confettiInstance = confetti.create(confettiCanvas, {
-      resize: false,
-      useWorker: true
-    });
+    const confettiInstance = confetti.create(confettiCanvas, { resize: false, useWorker: true });
 
     function fullScreenConfetti() {
       const end = Date.now() + 1600;
@@ -288,8 +256,8 @@
       dx /= mag;
       dy /= mag;
 
-      let newLeft = (b.left - z.left) + dx * 150;
-      let newTop  = (b.top - z.top) + dy * 150;
+      let newLeft = (b.left - z.left) + dx * 160;
+      let newTop  = (b.top - z.top) + dy * 160;
 
       newLeft = clamp(newLeft, 0, z.width - b.width);
       newTop  = clamp(newTop, 0, z.height - b.height);
@@ -301,16 +269,26 @@
       growYes();
     }
 
-    zone.addEventListener("pointermove", e => {
+    function handlePointer(e) {
       const b = noBtn.getBoundingClientRect();
       const d = Math.hypot(
         (b.left + b.width / 2) - e.clientX,
         (b.top + b.height / 2) - e.clientY
       );
-      if (d < 140) moveNo(e.clientX, e.clientY);
+      if (d < 160) moveNo(e.clientX, e.clientY);
+    }
+
+    // Works on desktop + mobile
+    zone.addEventListener("pointermove", handlePointer);
+    zone.addEventListener("pointerdown", handlePointer);
+
+    // Extra: if they try to tap "No" directly
+    noBtn.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      moveNo(e.clientX, e.clientY);
     });
 
-    noBtn.addEventListener("click", e => e.preventDefault());
+    noBtn.addEventListener("click", (e) => e.preventDefault());
 
     /* YES CLICK */
     yesBtn.addEventListener("click", () => {
