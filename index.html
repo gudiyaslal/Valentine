@@ -138,6 +138,16 @@
 
     /* Letter panel (inside) */
     .letter{
+  background:
+    linear-gradient(180deg, #fffaf2, #fff2ea),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.02) 0px,
+      rgba(0,0,0,0.02) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+
       position:absolute;
       left:50%;
       bottom: 34px;
@@ -165,15 +175,12 @@
 
     /* Title row (question + heart at right end) */
     .title-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin: 10px 6px 6px;
-      opacity:0;
-      transform: translateY(6px);
-      transition: opacity .5s ease, transform .5s ease;
-    }
+  display:flex;
+  align-items:flex-start;     /* was center */
+  justify-content:space-between;
+  gap:10px;                   /* smaller gap */
+  margin: 10px 6px 6px;
+}
 
     .question{
       font-family:"Pacifico", cursive;
@@ -184,9 +191,9 @@
     }
 
     .side-heart{
-      font-size: 28px;
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,.12));
-    }
+  font-size: 28px;
+  margin-top: 10px;
+}
 
     .subline{
       margin: 0 6px 10px;
@@ -198,18 +205,18 @@
 
     /* Buttons */
     .button-zone{
-      position:relative;
-      height: 86px;
-      margin-top: 8px;
-      touch-action:none;
-      opacity:0;
-      transform: translateY(8px);
-      transition: opacity .45s ease, transform .45s ease;
-    }
+  position:relative;
+  height: 96px;
+  margin-top: 14px;
+  touch-action:none;
+  opacity:0;
+  transform: translateY(8px);
+  transition: opacity .45s ease, transform .45s ease;
+}
 
     button{
       position:absolute;
-      top:50%;
+      top:44%;
       transform: translateY(-50%);
       padding: 14px 22px;
       font-size: 20px;
@@ -272,10 +279,9 @@
     .open .letter{
       transform: translateX(-50%) translateY(0);
     }
-    .open .seal{
-      /* move heart from center to right end */
-      transform: translateX(calc(-50% + 250px));
-    }
+   .open .seal{
+  transform: translateX(calc(-50% + (min(640px, 94vw) * 0.37)));
+}
 
     /* Reveal texts/buttons after open */
     .show-text .title-row,
