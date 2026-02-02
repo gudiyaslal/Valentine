@@ -21,32 +21,68 @@
       background:#fff;
       font-family:"Patrick Hand", system-ui, sans-serif;
       overflow:hidden;
+      padding: 18px;
     }
 
-    /* LETTER */
+    /* LETTER (taller + paper grain) */
     .letter{
-      width:min(720px, 92vw);
-      padding:48px 40px;
-      background:#fffbdc;
-      border:3px dashed #ff9ecb;
+      width:min(760px, 92vw);
+      min-height: 420px;                 /* (5) increased height */
+      padding:56px 44px;
       border-radius:22px;
+      position: relative;
+
+      /* (1) paper-ish grain using layered gradients (no image) */
+      background:
+        radial-gradient(circle at 10% 20%, rgba(0,0,0,0.025) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.02) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 30% 80%, rgba(0,0,0,0.02) 0 1px, transparent 1px 100%),
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0 1px, transparent 1px 7px),
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.01) 0 1px, transparent 1px 9px),
+        #fffbdc;
+
+      box-shadow: none;
+      overflow:hidden;
+    }
+
+    /* (2) dashed border inside, not on edge */
+    .letter::before{
+      content:"";
+      position:absolute;
+      inset: 18px;                       /* pushes border inside */
+      border:3px dashed #ff9ecb;
+      border-radius:18px;
+      pointer-events:none;
     }
 
     /* TEXT */
     .question{
-      font-size:clamp(32px, 5vw, 56px);
+      font-size:clamp(34px, 5vw, 58px);
       line-height:1.1;
       color:#000;
-      margin:0 0 48px;
+      margin:0;
+    }
+
+    /* Buttons container */
+    .button-zone{
+      position:relative;
+      width: 100%;
+      height: 120px;                     /* space for 2D movement */
+      margin-top: 64px;
+      display:block;
+      opacity: 0;                        /* (6) start hidden */
+      transform: translateY(8px);
+      transition: opacity .45s ease, transform .45s ease;
+      pointer-events: none;              /* disabled until shown */
+    }
+
+    .button-zone.show{
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
     /* BUTTONS */
-    .button-zone{
-      position:relative;
-      display:flex;
-      gap:48px;
-    }
-
     button{
       border:none;
       border-radius:999px;
@@ -54,18 +90,43 @@
       font-family:"Patrick Hand", system-ui, sans-serif;
       font-size:28px;
       cursor:pointer;
-      background:none;
+      box-shadow:none;
+      position:absolute;
+      top: 30px;                         /* base y position */
+      -webkit-tap-highlight-color: transparent;
+      user-select:none;
     }
 
     #yesBtn{
+      left: 22%;
       background:#ff8fc1;
       color:#fff;
     }
 
+    /* (3) heart pop on YES hover + tap */
+    #yesBtn::after{
+      content:"💖";
+      position:absolute;
+      left:50%;
+      top:-10px;
+      transform: translate(-50%, 0) scale(.6);
+      opacity:0;
+      pointer-events:none;
+    }
+    #yesBtn:hover::after,
+    #yesBtn.tap-heart::after{
+      animation: heartPop .7s ease forwards;
+    }
+    @keyframes heartPop{
+      0%   { opacity:0; transform: translate(-50%, 4px) scale(.5); }
+      30%  { opacity:1; transform: translate(-50%, -8px) scale(1); }
+      100% { opacity:0; transform: translate(-50%, -22px) scale(1.15); }
+    }
+
     #noBtn{
+      left: 62%;
       background:#ffdca1;
       color:#fff;
-      position:relative;
     }
 
     /* CELEBRATION */
@@ -79,25 +140,28 @@
       background:#fff;
       z-index:10;
       text-align:center;
+      padding: 18px;
     }
-
-    .celebrate.show{
-      display:flex;
-    }
+    .celebrate.show{ display:flex; }
 
     .celebrate h1{
       font-size:clamp(36px, 6vw, 64px);
-      margin-bottom:12px;
+      margin: 0 0 10px;
     }
-
     .celebrate p{
       font-size:22px;
-      margin-bottom:18px;
+      margin: 0 0 18px;
+    }
+    .celebrate img{
+      width:min(560px, 92vw);
+      border-radius:18px;
     }
 
-    .celebrate img{
-      width:min(520px, 92vw);
-      border-radius:18px;
+    /* tiny footer */
+    .footer{
+      margin-top: 28px;
+      font-size: 14px;
+      opacity:.7;
     }
   </style>
 </head>
@@ -112,9 +176,11 @@
     </div>
 
     <div class="button-zone" id="zone">
-      <button id="yesBtn">Yes</button>
-      <button id="noBtn">No</button>
+      <button id="yesBtn" type="button">Yes</button>
+      <button id="noBtn" type="button">No</button>
     </div>
+
+    <div class="footer">do you think you have an option?</div>
   </div>
 
   <!-- CELEBRATION -->
@@ -135,7 +201,19 @@
     const zone = document.getElementById("zone");
     const celebrate = document.getElementById("celebrate");
 
-    /* NO RUNS AWAY */
+    /* (6) show buttons after delay */
+    setTimeout(() => {
+      zone.classList.add("show");
+    }, 1100);
+
+    /* (3) heart pop on mobile tap too */
+    yesBtn.addEventListener("pointerdown", () => {
+      yesBtn.classList.remove("tap-heart");
+      void yesBtn.offsetWidth;
+      yesBtn.classList.add("tap-heart");
+    });
+
+    /* (4) NO runs away in 2D inside button-zone */
     function clamp(n, min, max){
       return Math.max(min, Math.min(max, n));
     }
@@ -144,43 +222,12 @@
       const z = zone.getBoundingClientRect();
       const b = noBtn.getBoundingClientRect();
 
+      // direction away from pointer
       let dx = (b.left + b.width/2) - px;
-      let dy = (b.top + b.height/2) - py;
+      let dy = (b.top  + b.height/2) - py;
       let mag = Math.hypot(dx, dy) || 1;
       dx /= mag;
       dy /= mag;
 
-      let newLeft = (b.left - z.left) + dx * 140;
-      let newTop  = (b.top  - z.top ) + dy * 140;
-
-      newLeft = clamp(newLeft, 0, z.width  - b.width);
-      newTop  = clamp(newTop,  0, z.height - b.height);
-
-      noBtn.style.position = "absolute";
-      noBtn.style.left = newLeft + "px";
-      noBtn.style.top  = newTop  + "px";
-    }
-
-    zone.addEventListener("pointermove", e => {
-      const b = noBtn.getBoundingClientRect();
-      const d = Math.hypot(
-        (b.left + b.width/2) - e.clientX,
-        (b.top  + b.height/2) - e.clientY
-      );
-      if(d < 120) moveNo(e.clientX, e.clientY);
-    });
-
-    noBtn.addEventListener("click", e => e.preventDefault());
-
-    /* YES CLICK */
-    yesBtn.addEventListener("click", () => {
-      celebrate.classList.add("show");
-      confetti({
-        particleCount: 300,
-        spread: 120,
-        origin: { y: 0.6 }
-      });
-    });
-  </script>
-</body>
-</html>
+      // move a decent step in both axes
+      let newLeft = (b.left - z.left) + dx * 170;
