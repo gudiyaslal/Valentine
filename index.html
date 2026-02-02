@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Will you be my Valentine?</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Valentine Letter 💌</title>
 
-  <!-- Handwritten font -->
+  <!-- Handwritten fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Pacifico&display=swap" rel="stylesheet">
 
   <!-- Confetti -->
@@ -14,14 +14,15 @@
   <style>
     :root{
       --bg1:#ffd6e7;
-      --bg2:#ffeef6;
-      --ink:#231f20;
-      --paper:#fffaf2;
-      --paper2:#fff3e8;
+      --bg2:#fff1f7;
+      --ink:#241f20;
+      --env:#fff;
+      --env2:#ffe6f1;
+      --edge: rgba(0,0,0,.08);
       --seal:#ff3b7a;
+      --seal2:#ff77a9;
       --yes:#ff3b7a;
       --yesHover:#ff1f68;
-      --shadow: 0 18px 60px rgba(0,0,0,.16);
     }
 
     *{ box-sizing:border-box; }
@@ -38,7 +39,7 @@
       padding:16px;
     }
 
-    /* Full screen confetti canvas */
+    /* Confetti canvas */
     #confettiCanvas{
       position:fixed;
       inset:0;
@@ -48,107 +49,76 @@
       z-index:9999;
     }
 
-    /* Stage container */
+    /* Envelope stage */
     .stage{
-      width:min(820px, 94vw);
+      width:min(720px, 94vw);
       display:grid;
       place-items:center;
     }
 
-    /* Envelope card */
-    .envelope-wrap{
-      width:min(700px, 94vw);
-      border-radius:26px;
-      padding:22px;
-      background: rgba(255,255,255,.55);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-      text-align:center;
+    .envelope{
+      width:min(640px, 94vw);
+      height: 320px;
       position:relative;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color:transparent;
+      filter: drop-shadow(0 18px 50px rgba(0,0,0,.14));
+    }
+
+    /* Envelope base */
+    .env-base{
+      position:absolute;
+      inset: 22px 18px 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, var(--env), var(--env2));
+      border: 2px solid var(--edge);
       overflow:hidden;
     }
 
-    .topline{
-      font-family: "Pacifico", cursive;
-      font-size: clamp(20px, 3vw, 30px);
-      margin: 6px 0 14px;
+    /* Front pocket (simple triangle feel) */
+    .env-pocket{
+      position:absolute;
+      left:50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: calc(100% - 36px);
+      height: 190px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fff, #ffeaf4);
+      border: 2px solid rgba(0,0,0,.06);
+      overflow:hidden;
+    }
+    .env-pocket::before{
+      content:"";
+      position:absolute;
+      left:0; right:0; top:0;
+      margin:auto;
+      width:0; height:0;
+      border-left: 280px solid transparent;
+      border-right: 280px solid transparent;
+      border-top: 130px solid rgba(255,59,122,.10);
+      transform: translateY(-20px);
       opacity:.9;
     }
 
-    /* Envelope */
-    .envelope{
-      width:min(560px, 92%);
-      margin: 0 auto;
-      position:relative;
-      height: 280px;
-      cursor:pointer;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-      animation: floaty 2.8s ease-in-out infinite;
-    }
-    @keyframes floaty{
-      0%,100%{ transform: translateY(0); }
-      50%{ transform: translateY(-6px); }
-    }
-
-    .env-back{
-      position:absolute;
-      inset: 28px 24px 24px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fff, #fff6fb);
-      box-shadow: 0 14px 30px rgba(0,0,0,.12);
-    }
-
     /* Flap */
-    .flap{
+    .env-flap{
       position:absolute;
       left:50%;
-      top: 38px;
-      width: 0;
-      height: 0;
+      top: 30px;
       transform: translateX(-50%);
-      border-left: 250px solid transparent;
-      border-right: 250px solid transparent;
-      border-bottom: 150px solid #ffe2ef;
-      filter: drop-shadow(0 10px 10px rgba(0,0,0,.08));
-      transform-origin: 50% 0%;
-      transition: transform .55s cubic-bezier(.2,.9,.2,1);
-    }
-
-    /* Pocket */
-    .pocket{
-      position:absolute;
-      left:50%;
-      bottom: 20px;
-      transform: translateX(-50%);
-      width: 520px;
-      max-width: 92%;
-      height: 170px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fff, #ffe9f2);
-      overflow:hidden;
-      border: 2px solid rgba(0,0,0,.06);
-    }
-
-    /* Pocket triangles */
-    .pocket:before, .pocket:after{
-      content:"";
-      position:absolute;
-      top:0;
       width:0;height:0;
-      border-top: 85px solid transparent;
-      border-bottom: 85px solid transparent;
-    }
-    .pocket:before{
-      left:-2px;
-      border-right: 180px solid rgba(255,59,122,.10);
-    }
-    .pocket:after{
-      right:-2px;
-      border-left: 180px solid rgba(255,59,122,.10);
+      border-left: 300px solid transparent;
+      border-right: 300px solid transparent;
+      border-bottom: 160px solid #ffe0ee;
+      transform-origin: 50% 0%;
+      transition: transform .7s cubic-bezier(.2,.95,.2,1);
+      filter: drop-shadow(0 10px 10px rgba(0,0,0,.10));
+      z-index: 4;
     }
 
-    /* Seal */
+    /* Seal heart */
     .seal{
       position:absolute;
       left:50%;
@@ -157,92 +127,112 @@
       width: 74px;
       height: 74px;
       border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #ff7aa7, var(--seal));
-      box-shadow: 0 12px 24px rgba(255,59,122,.25), 0 8px 16px rgba(0,0,0,.10);
+      background: radial-gradient(circle at 30% 30%, var(--seal2), var(--seal));
+      box-shadow: 0 16px 28px rgba(255,59,122,.22), 0 10px 18px rgba(0,0,0,.12);
       display:grid;
       place-items:center;
-      font-size: 30px;
-      transition: transform .55s cubic-bezier(.2,.9,.2,1), opacity .35s ease;
+      font-size: 32px;
+      z-index: 6;
+      transition: transform .9s cubic-bezier(.2,.95,.2,1);
     }
 
-    /* Letter */
+    /* Letter panel (inside) */
     .letter{
       position:absolute;
       left:50%;
       bottom: 34px;
       transform: translateX(-50%) translateY(120px);
-      width: 520px;
-      max-width: 92%;
-      height: 200px;
-      background: linear-gradient(180deg, var(--paper), var(--paper2));
-      border-radius: 18px;
-      border: 2px solid rgba(0,0,0,.08);
+      width: calc(100% - 80px);
+      max-width: 560px;
+      height: 220px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fffaf2, #fff2ea);
+      border: 2px solid rgba(0,0,0,.10);
       box-shadow: 0 16px 40px rgba(0,0,0,.10);
       padding: 16px 16px 14px;
-      text-align:left;
-      transition: transform .65s cubic-bezier(.2,.95,.2,1);
+      z-index: 3;
+      transition: transform .8s cubic-bezier(.2,.95,.2,1);
       overflow:hidden;
     }
-
-    .letter:before{
+    .letter::before{
       content:"";
       position:absolute;
       inset: 10px;
       border: 2px dashed rgba(255,59,122,.25);
       border-radius: 14px;
       pointer-events:none;
-      opacity:.9;
     }
 
-    .letter h1{
-      margin: 10px 0 8px;
-      font-size: clamp(28px, 4.2vw, 44px);
-      letter-spacing:.3px;
-      line-height: 1.02;
-      font-family: "Pacifico", cursive;
-      font-weight: 400;
+    /* Title row (question + heart at right end) */
+    .title-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 10px 6px 6px;
+      opacity:0;
+      transform: translateY(6px);
+      transition: opacity .5s ease, transform .5s ease;
     }
 
-    .letter p{
-      margin: 0 0 12px;
+    .question{
+      font-family:"Pacifico", cursive;
+      font-weight:400;
+      font-size: clamp(26px, 4.2vw, 42px);
+      line-height: 1.05;
+      margin:0;
+    }
+
+    .side-heart{
+      font-size: 28px;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.12));
+    }
+
+    .subline{
+      margin: 0 6px 10px;
       font-size: 18px;
-      opacity:.92;
+      opacity:0;
+      transform: translateY(6px);
+      transition: opacity .5s ease, transform .5s ease;
     }
 
+    /* Buttons */
     .button-zone{
-      position: relative;
-      width: 100%;
+      position:relative;
       height: 86px;
       margin-top: 8px;
-      touch-action: none;
+      touch-action:none;
+      opacity:0;
+      transform: translateY(8px);
+      transition: opacity .45s ease, transform .45s ease;
     }
 
     button{
       position:absolute;
-      top: 50%;
+      top:50%;
       transform: translateY(-50%);
       padding: 14px 22px;
       font-size: 20px;
       font-weight: 800;
       border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      border:none;
+      cursor:pointer;
+      box-shadow: 0 12px 24px rgba(0,0,0,.12);
       user-select:none;
-      -webkit-tap-highlight-color: transparent;
+      -webkit-tap-highlight-color:transparent;
       transition: transform .12s ease, background .12s ease, left .08s ease, top .08s ease;
-      will-change: left, top, transform;
-      font-family: "Patrick Hand", system-ui, sans-serif;
+      will-change:left,top,transform;
+      font-family:"Patrick Hand", system-ui, sans-serif;
     }
 
     #yesBtn{
-      left: 14%;
+      left: 16%;
       background: var(--yes);
       color:#fff;
     }
     #yesBtn:hover{ background: var(--yesHover); }
 
-    /* Tiny heart hover */
+    /* tiny heart pop on YES hover */
     #yesBtn::after{
       content:"💖";
       position:absolute;
@@ -257,9 +247,9 @@
       animation: heartPop .7s ease forwards;
     }
     @keyframes heartPop{
-      0%   { opacity: 0; transform: translate(-50%, 4px) scale(.5); }
-      30%  { opacity: 1; transform: translate(-50%, -8px) scale(1); }
-      100% { opacity: 0; transform: translate(-50%, -22px) scale(1.15); }
+      0%   { opacity:0; transform: translate(-50%, 4px) scale(.5); }
+      30%  { opacity:1; transform: translate(-50%, -8px) scale(1); }
+      100% { opacity:0; transform: translate(-50%, -22px) scale(1.15); }
     }
 
     #noBtn{
@@ -270,15 +260,33 @@
 
     .footer{
       margin-top: 10px;
+      text-align:center;
       font-size: 14px;
       opacity:.75;
-      text-align:center;
     }
 
-    /* Open state */
-    .open .flap{ transform: translateX(-50%) rotateX(165deg); }
-    .open .seal{ transform: translateX(-50%) scale(.88); opacity:.85; }
-    .open .letter{ transform: translateX(-50%) translateY(0px); }
+    /* OPEN state choreography */
+    .open .env-flap{
+      transform: translateX(-50%) rotateX(165deg);
+    }
+    .open .letter{
+      transform: translateX(-50%) translateY(0);
+    }
+    .open .seal{
+      /* move heart from center to right end */
+      transform: translateX(calc(-50% + 250px));
+    }
+
+    /* Reveal texts/buttons after open */
+    .show-text .title-row,
+    .show-text .subline{
+      opacity:1;
+      transform: translateY(0);
+    }
+    .show-buttons .button-zone{
+      opacity:1;
+      transform: translateY(0);
+    }
 
     /* Celebration overlay */
     .celebrate{
@@ -287,7 +295,7 @@
       display:none;
       place-items:center;
       background: radial-gradient(circle at top, #ffffff, #ffe9f2 45%, #ffd6e7);
-      z-index: 9000;
+      z-index:9000;
       padding: 18px;
       text-align:center;
     }
@@ -295,27 +303,33 @@
 
     .celebrate h2{
       font-family:"Pacifico", cursive;
-      font-size: clamp(34px, 5vw, 58px);
+      font-weight:400;
+      font-size: clamp(34px, 5vw, 60px);
       margin: 0 0 10px;
     }
-
     .celebrate .sub{
-      font-size: 18px;
+      font-size: 20px;
       margin: 0 0 14px;
       opacity:.9;
     }
-
     .celebrate img{
-      width:min(520px, 95vw);
+      width:min(560px, 96vw);
       border-radius: 18px;
       box-shadow: 0 18px 60px rgba(0,0,0,.18);
       border: 2px solid rgba(0,0,0,.06);
     }
-
-    .tip{
-      margin-top: 8px;
+    .tiny{
+      margin-top: 10px;
       font-size: 14px;
-      opacity:.75;
+      opacity: .75;
+    }
+
+    /* Small instruction */
+    .hint{
+      margin-top: 10px;
+      font-size: 14px;
+      opacity:.72;
+      text-align:center;
     }
   </style>
 </head>
@@ -324,48 +338,46 @@
   <canvas id="confettiCanvas"></canvas>
 
   <div class="stage">
-    <div class="envelope-wrap">
-      <div class="topline">You’ve got mail… 💌</div>
+    <div class="envelope" id="envelope" role="button" aria-label="Open love letter">
+      <div class="env-base"></div>
+      <div class="env-flap"></div>
+      <div class="env-pocket"></div>
+      <div class="seal">💗</div>
 
-      <div class="envelope" id="envelope" aria-label="Open the letter" role="button">
-        <div class="env-back"></div>
-        <div class="flap"></div>
-        <div class="pocket"></div>
-        <div class="seal">💗</div>
-
-        <!-- Love letter content -->
-        <div class="letter" id="letter">
-          <p style="margin-top:2px;">Hey love…</p>
-          <h1>Will you be my Valentine?</h1>
-
-          <p>We’ve been doing “us” for like 5–6 years… so answer properly 😌</p>
-
-          <div class="button-zone" id="zone">
-            <button id="yesBtn" type="button">Yes</button>
-            <button id="noBtn" type="button">No</button>
-          </div>
-
-          <div class="footer">do you think you have an option?</div>
+      <div class="letter" id="letter">
+        <div class="title-row" id="titleRow">
+          <h1 class="question">Rg, will you be my Valentine?</h1>
+          <div class="side-heart">💘</div>
         </div>
-      </div>
 
-      <div class="tip">Tap/click the envelope to open (or just wait 👀)</div>
+        <p class="subline" id="subline">
+          (We’ve been dating for 5–6 years… so be serious 😌)
+        </p>
+
+        <div class="button-zone" id="zone">
+          <button id="yesBtn" type="button">Yes</button>
+          <button id="noBtn" type="button">No</button>
+        </div>
+
+        <div class="footer">do you think you have an option?</div>
+      </div>
     </div>
+
+    <div class="hint">It will open by itself… but you can tap it too 💌</div>
   </div>
 
-  <!-- Celebration screen -->
   <div class="celebrate" id="celebrate">
     <div>
-      <h2>YAAAY!! 🎉💖</h2>
-      <p class="sub">Okay then… Arsenal celebration mode 😌❤️</p>
+      <h2>YAYAA!! 🎉💖</h2>
+      <p class="sub">I LOVE YOU TOO 😌❤️</p>
 
-      <!-- Arsenal celebration GIF -->
+      <!-- Arsenal winning/celebration GIF (replace if you have a specific one) -->
       <img
         src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3I0dmZrZTJ2NmVjdWFrcGZtZ2l0Z2ZybnlsY3VicG9nYzBzaGk2MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4Hk0ETSpgxCR95YPgY/giphy.gif"
-        alt="Arsenal celebration GIF"
+        alt="Arsenal celebration"
       />
 
-      <div class="tip">COYG 💪</div>
+      <div class="tiny">COYG ❤️</div>
     </div>
   </div>
 
@@ -417,25 +429,36 @@
       }, 260);
     }
 
-    // Envelope open (click OR delay)
+    // Open choreography (auto + click fallback)
     let opened = false;
+
     function openEnvelope() {
       if (opened) return;
       opened = true;
+
       envelope.classList.add("open");
+
+      // After the heart moves + letter slides, reveal text
+      setTimeout(() => envelope.classList.add("show-text"), 520);
+
+      // Then reveal buttons after a delay
+      setTimeout(() => envelope.classList.add("show-buttons"), 1200);
     }
 
-    envelope.addEventListener("click", openEnvelope);
-    setTimeout(openEnvelope, 1200);
+    // Auto open after a short delay
+    setTimeout(openEnvelope, 900);
 
-    // Heart pop on mobile tap as well
+    // Click / tap always opens
+    envelope.addEventListener("click", openEnvelope);
+
+    // Heart pop on mobile tap too
     yesBtn.addEventListener("pointerdown", () => {
       yesBtn.classList.remove("tap-heart");
       void yesBtn.offsetWidth;
       yesBtn.classList.add("tap-heart");
     });
 
-    // YES button grows slightly when NO dodges
+    // YES grows slightly as NO dodges
     let yesScale = 1;
     function growYes() {
       yesScale = Math.min(2.1, yesScale + 0.09);
@@ -465,7 +488,7 @@
 
       noBtn.style.left = newLeft + "px";
       noBtn.style.top  = newTop + "px";
-      noBtn.style.transform = "translate(0,0)";
+      noBtn.style.transform = "translateY(0)";
 
       growYes();
     }
@@ -479,11 +502,19 @@
       if (d < 170) moveNo(e.clientX, e.clientY);
     }
 
-    zone.addEventListener("pointermove", handlePointer);
-    zone.addEventListener("pointerdown", handlePointer);
+    // Only start dodging after buttons appear
+    zone.addEventListener("pointermove", (e) => {
+      if (!envelope.classList.contains("show-buttons")) return;
+      handlePointer(e);
+    });
+    zone.addEventListener("pointerdown", (e) => {
+      if (!envelope.classList.contains("show-buttons")) return;
+      handlePointer(e);
+    });
 
     // If they try to tap directly on NO
     noBtn.addEventListener("pointerdown", (e) => {
+      if (!envelope.classList.contains("show-buttons")) return;
       e.preventDefault();
       moveNo(e.clientX, e.clientY);
     });
