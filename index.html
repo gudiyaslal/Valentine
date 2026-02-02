@@ -70,10 +70,9 @@
       touch-action: none;
     }
 
+    /* BUTTON BASE */
     button {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
       padding: 16px 24px;
       font-size: 18px;
       font-weight: 800;
@@ -86,15 +85,21 @@
       transition: transform .12s ease, background .12s ease;
     }
 
+    /* YES BUTTON */
     #yesBtn {
+      top: 50%;
       left: 18%;
+      transform: translateY(-50%);
       background: var(--yes);
       color: #fff;
     }
     #yesBtn:hover { background: var(--yesHover); }
 
+    /* NO BUTTON */
     #noBtn {
+      top: 50%;
       left: 62%;
+      transform: translateY(-50%);
       background: #e5e7eb;
       color: #111827;
     }
@@ -133,7 +138,8 @@
   <canvas id="confettiCanvas"></canvas>
 
   <main class="card">
-    <!-- ANIMAL WITH HEART -->
+
+    <!-- CUTE ANIMAL SVG -->
     <svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="fur" x1="0" x2="1">
@@ -171,14 +177,13 @@
             fill="#ff7aa2"/>
     </svg>
 
-    <h1>Rg, will you be my valentine forever?</h1>
+    <h1>Nirali, will you be my Valentine? 💖</h1>
 
     <section class="button-zone" id="zone">
       <button id="yesBtn">Yes</button>
       <button id="noBtn">No</button>
     </section>
 
-    <!-- HINT -->
     <div class="hint" id="hint">“No” seems a bit shy 😈</div>
 
     <section class="result" id="result">
@@ -188,7 +193,20 @@
         src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
         alt="Fireworks"
       />
+
+      <p style="margin:14px 0 10px; font-size:16px; opacity:.85;">
+        Text me: “YES 💖”
+      </p>
+
+      <a
+        href="https://wa.me/?text=YES%20%F0%9F%92%96"
+        target="_blank"
+        style="display:inline-block; padding:12px 18px; border-radius:999px; background:#25D366; color:#fff; font-weight:800; text-decoration:none;"
+      >
+        Send on WhatsApp 💬
+      </a>
     </section>
+
   </main>
 
   <script>
@@ -198,7 +216,7 @@
     const result = document.getElementById("result");
     const hint = document.getElementById("hint");
 
-    /* ---------- CONFETTI ---------- */
+    /* CONFETTI */
     const confettiCanvas = document.getElementById("confettiCanvas");
 
     function resizeConfettiCanvas() {
@@ -211,7 +229,9 @@
 
     resizeConfettiCanvas();
     window.addEventListener("resize", resizeConfettiCanvas);
-    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
+    window.addEventListener("orientationchange", () =>
+      setTimeout(resizeConfettiCanvas, 150)
+    );
 
     const confettiInstance = confetti.create(confettiCanvas, {
       resize: false,
@@ -243,14 +263,14 @@
       }, 300);
     }
 
-    /* ---------- YES BUTTON GROWS ---------- */
+    /* YES GROWS */
     let yesScale = 1;
     function growYes() {
       yesScale = Math.min(2.2, yesScale + 0.1);
       yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
     }
 
-    /* ---------- NO BUTTON RUNS AWAY ---------- */
+    /* NO RUNS AWAY */
     function clamp(n, min, max) {
       return Math.max(min, Math.min(max, n));
     }
@@ -273,7 +293,7 @@
 
       noBtn.style.left = newLeft + "px";
       noBtn.style.top = newTop + "px";
-      noBtn.style.transform = "none";
+      noBtn.style.transform = "translate(0,0)";
 
       growYes();
     }
@@ -289,10 +309,10 @@
 
     noBtn.addEventListener("click", e => e.preventDefault());
 
-    /* ---------- YES CLICK ---------- */
+    /* YES CLICK */
     yesBtn.addEventListener("click", () => {
       zone.style.display = "none";
-      hint.style.display = "none";     // HIDE THE HINT
+      hint.style.display = "none";
       result.style.display = "block";
       resizeConfettiCanvas();
       fullScreenConfetti();
@@ -300,5 +320,3 @@
   </script>
 </body>
 </html>
-
-
