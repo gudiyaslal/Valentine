@@ -76,11 +76,11 @@
       pointer-events: none;              /* disabled until shown */
     }
 
-    .button-zone.show{
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
+    .button-zone{
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
 
     /* BUTTONS */
     button{
@@ -201,10 +201,6 @@
     const zone = document.getElementById("zone");
     const celebrate = document.getElementById("celebrate");
 
-    /* (6) show buttons after delay */
-    setTimeout(() => {
-      zone.classList.add("show");
-    }, 100);
 
     /* (3) heart pop on mobile tap too */
     yesBtn.addEventListener("pointerdown", () => {
