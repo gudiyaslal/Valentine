@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Valentine 💌</title>
 
+  <!-- Handwritten font -->
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -18,37 +21,40 @@
       background:#fff;
       font-family:"Patrick Hand", system-ui, sans-serif;
       overflow:hidden;
-      padding: 18px;
+      padding:18px;
     }
 
+    /* LETTER */
     .letter{
       width:min(760px, 92vw);
-      min-height: 460px; /* a bit taller */
+      min-height:420px;
       padding:56px 44px;
+      position:relative;
       border-radius:22px;
-      position: relative;
 
+      /* paper grain */
       background:
-        radial-gradient(circle at 10% 20%, rgba(0,0,0,0.025) 0 1px, transparent 1px 100%),
-        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.02) 0 1px, transparent 1px 100%),
-        radial-gradient(circle at 30% 80%, rgba(0,0,0,0.02) 0 1px, transparent 1px 100%),
-        repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0 1px, transparent 1px 7px),
-        repeating-linear-gradient(90deg, rgba(0,0,0,0.01) 0 1px, transparent 1px 9px),
+        radial-gradient(circle at 12% 18%, rgba(0,0,0,.025) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 82% 28%, rgba(0,0,0,.02) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 28% 78%, rgba(0,0,0,.02) 0 1px, transparent 1px 100%),
+        repeating-linear-gradient(0deg, rgba(0,0,0,.015) 0 1px, transparent 1px 7px),
+        repeating-linear-gradient(90deg, rgba(0,0,0,.01) 0 1px, transparent 1px 9px),
         #fffbdc;
 
-      box-shadow: none;
       overflow:hidden;
     }
 
+    /* dashed border inside */
     .letter::before{
       content:"";
       position:absolute;
-      inset: 18px;
+      inset:18px;
       border:3px dashed #ff9ecb;
       border-radius:18px;
       pointer-events:none;
     }
 
+    /* TEXT */
     .question{
       font-size:clamp(34px, 5vw, 58px);
       line-height:1.1;
@@ -56,73 +62,68 @@
       margin:0;
     }
 
-    /* Buttons container */
+    /* BUTTON ZONE */
     .button-zone{
       position:relative;
-      width: 100%;
-      height: 170px;      /* more vertical room for 2D running */
-      margin-top: 70px;
+      width:100%;
+      height:140px;
+      margin-top:64px;
     }
 
     button{
+      position:absolute;
+      top:30px;
       border:none;
       border-radius:999px;
       padding:18px 56px;
       font-family:"Patrick Hand", system-ui, sans-serif;
       font-size:28px;
       cursor:pointer;
-      box-shadow:none;
-      position:absolute;
-      top: 40px;
-      -webkit-tap-highlight-color: transparent;
+      background:none;
       user-select:none;
+      -webkit-tap-highlight-color:transparent;
     }
 
     #yesBtn{
-      left: 20%;
+      left:22%;
       background:#ff8fc1;
       color:#fff;
     }
 
-    /* Heart pop on YES hover + tap */
+    /* heart pop on YES */
     #yesBtn::after{
       content:"💖";
       position:absolute;
       left:50%;
       top:-10px;
-      transform: translate(-50%, 0) scale(.6);
+      transform:translate(-50%,0) scale(.6);
       opacity:0;
       pointer-events:none;
     }
     #yesBtn:hover::after,
     #yesBtn.tap-heart::after{
-      animation: heartPop .7s ease forwards;
+      animation:heartPop .7s ease forwards;
     }
+
     @keyframes heartPop{
-      0%   { opacity:0; transform: translate(-50%, 4px) scale(.5); }
-      30%  { opacity:1; transform: translate(-50%, -8px) scale(1); }
-      100% { opacity:0; transform: translate(-50%, -22px) scale(1.15); }
+      0%{opacity:0; transform:translate(-50%,4px) scale(.5);}
+      30%{opacity:1; transform:translate(-50%,-8px) scale(1);}
+      100%{opacity:0; transform:translate(-50%,-22px) scale(1.15);}
     }
 
     #noBtn{
-      left: 60%;
+      left:62%;
       background:#ffdca1;
       color:#fff;
-      padding-bottom: 30px; /* room for the tiny text inside */
     }
 
-    /* Tiny sticky text attached to NO */
-    #noBtn .no-note{
-      position:absolute;
-      left:50%;
-      bottom: 8px;
-      transform: translateX(-50%);
-      font-size: 12px;
-      opacity: .85;
-      white-space: nowrap;
-      pointer-events:none;
+    .footer{
+      margin-top:28px;
+      font-size:14px;
+      opacity:.7;
     }
 
+    /* CELEBRATION */
     .celebrate{
       position:fixed;
       inset:0;
@@ -133,44 +134,115 @@
       background:#fff;
       z-index:10;
       text-align:center;
-      padding: 18px;
+      padding:18px;
     }
-    .celebrate.show{ display:flex; }
+    .celebrate.show{display:flex;}
 
     .celebrate h1{
-      font-size:clamp(36px, 6vw, 64px);
-      margin: 0 0 10px;
+      font-size:clamp(36px,6vw,64px);
+      margin-bottom:10px;
     }
+
     .celebrate p{
       font-size:22px;
-      margin: 0 0 18px;
+      margin-bottom:18px;
     }
+
     .celebrate img{
-      width:min(560px, 92vw);
+      width:min(560px,92vw);
       border-radius:18px;
     }
   </style>
 </head>
 
 <body>
-  <div class="letter" id="letter">
+
+  <!-- LETTER -->
+  <div class="letter">
     <div class="question">
       Rg,<br>
       Will you be my valentine?
     </div>
 
     <div class="button-zone" id="zone">
-      <button id="yesBtn" type="button">Yes</button>
-
-      <button id="noBtn" type="button">
-        No
-        <span class="no-note">do you think you have an option? 😈</span>
-      </button>
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
     </div>
+
+    <div class="footer">do you think you have an option?</div>
   </div>
 
+  <!-- CELEBRATION -->
   <div class="celebrate" id="celebrate">
     <h1>YAYAA!! 🎉💖</h1>
     <p>I LOVE YOU TOO 😌</p>
     <img
-      src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3I0dmZrZTJ2NmVjdWFrcGZtZ2l0Z2ZybnlsY3VicG
+      src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3I0dmZrZTJ2NmVjdWFrcGZtZ2l0Z2ZybnlsY3VicG9nYzBzaGk2MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4Hk0ETSpgxCR95YPgY/giphy.gif"
+      alt="Arsenal celebration"
+    />
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const zone = document.getElementById("zone");
+    const celebrate = document.getElementById("celebrate");
+
+    /* heart pop on mobile tap */
+    yesBtn.addEventListener("pointerdown", () => {
+      yesBtn.classList.remove("tap-heart");
+      void yesBtn.offsetWidth;
+      yesBtn.classList.add("tap-heart");
+    });
+
+    /* NO runs away in 2D */
+    function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
+
+    function moveNo(px,py){
+      const z = zone.getBoundingClientRect();
+      const b = noBtn.getBoundingClientRect();
+
+      let dx = (b.left + b.width/2) - px;
+      let dy = (b.top  + b.height/2) - py;
+      let mag = Math.hypot(dx,dy) || 1;
+      dx/=mag; dy/=mag;
+
+      let newLeft = (b.left - z.left) + dx * 170;
+      let newTop  = (b.top  - z.top ) + dy * 140;
+
+      newLeft = clamp(newLeft,0,z.width - b.width);
+      newTop  = clamp(newTop ,0,z.height- b.height);
+
+      noBtn.style.left = newLeft + "px";
+      noBtn.style.top  = newTop  + "px";
+    }
+
+    function handlePointer(e){
+      const b = noBtn.getBoundingClientRect();
+      const d = Math.hypot(
+        (b.left + b.width/2) - e.clientX,
+        (b.top  + b.height/2) - e.clientY
+      );
+      if(d < 160) moveNo(e.clientX,e.clientY);
+    }
+
+    zone.addEventListener("pointermove", handlePointer);
+    zone.addEventListener("pointerdown", handlePointer);
+
+    noBtn.addEventListener("pointerdown", e => {
+      e.preventDefault();
+      moveNo(e.clientX,e.clientY);
+    });
+    noBtn.addEventListener("click", e => e.preventDefault());
+
+    /* YES -> celebration */
+    yesBtn.addEventListener("click", () => {
+      celebrate.classList.add("show");
+      confetti({ particleCount:320, spread:130, startVelocity:55, origin:{y:.6} });
+      setTimeout(()=>confetti({particleCount:120, spread:90, origin:{y:.4}}),250);
+      setTimeout(()=>confetti({particleCount:120, spread:90, origin:{y:.4}}),550);
+    });
+  </script>
+
+</body>
+</html>
